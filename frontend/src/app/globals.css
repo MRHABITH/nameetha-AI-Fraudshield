@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 7%;
+    --foreground: 210 20% 92%;
+    --card: 220 18% 10%;
+    --card-foreground: 210 20% 92%;
+    --primary: 195 100% 50%;
+    --primary-foreground: 220 20% 7%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 210 20% 85%;
+    --accent: 265 85% 65%;
+    --accent-foreground: 220 20% 7%;
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 210 20% 95%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 215 14% 50%;
+    --border: 220 15% 16%;
+    --ring: 195 100% 50%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(ellipse at 10% 10%, hsl(195, 100%, 10%, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 90%, hsl(265, 85%, 10%, 0.15) 0%, transparent 50%);
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-1.5;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/60 rounded-xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-200 hover:border-border hover:bg-card/90;
+  }
+
+  .metric-card {
+    @apply glass-card p-5 flex flex-col gap-3;
+  }
+
+  .badge-fraud {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-fraud-900/80 text-fraud-100 border border-fraud-500/40;
+  }
+
+  .badge-safe {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-safe-600/20 text-safe-500 border border-safe-500/30;
+  }
+
+  .badge-warning {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-warning-50/10 text-warning-500 border border-warning-500/30;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground transition-all duration-150 cursor-pointer;
+  }
+
+  .sidebar-item:hover {
+    @apply bg-secondary text-foreground;
+  }
+
+  .sidebar-item.active {
+    @apply bg-primary/10 text-primary border border-primary/20;
+  }
+
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+
+  .status-dot.live {
+    @apply bg-safe-500 animate-pulse;
+  }
+
+  .glow-fraud {
+    box-shadow: 0 0 15px hsl(0, 85%, 55%, 0.3), 0 0 30px hsl(0, 85%, 55%, 0.1);
+  }
+
+  .glow-cyber {
+    box-shadow: 0 0 15px hsl(195, 100%, 50%, 0.3), 0 0 30px hsl(195, 100%, 50%, 0.1);
+  }
+
+  .data-table th {
+    @apply text-xs font-semibold text-muted-foreground uppercase tracking-wider px-4 py-3 text-left border-b border-border;
+  }
+
+  .data-table td {
+    @apply px-4 py-3 text-sm border-b border-border/50;
+  }
+
+  .data-table tr:hover td {
+    @apply bg-secondary/50;
+  }
+
+  /* ── Live data flash — triggers when a value just updated ── */
+  .live-value {
+    @apply transition-all duration-300;
+  }
+
+  .live-value.updated {
+    animation: live-flash 0.6s ease-out forwards;
+  }
+
+  /* ── New row slide-in for transaction tables ── */
+  .new-row td {
+    animation: slide-in-row 0.4s ease-out;
+  }
+
+  /* ── Radar pulse ring around live indicators ── */
+  .live-ring {
+    position: relative;
+  }
+
+  .live-ring::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid hsl(142, 76%, 55%, 0.5);
+    animation: ping-ring 2s ease-out infinite;
+  }
+}
+
+/* ── Keyframes (outside @layer to avoid purging) ── */
+@keyframes live-flash {
+  0% {
+    background-color: hsl(142, 76%, 20%, 0.5);
+    color: hsl(142, 76%, 75%);
+  }
+
+  100% {
+    background-color: transparent;
+    color: inherit;
+  }
+}
+
+@keyframes slide-in-row {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ping-ring {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes count-bounce {
+  0% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes stream-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
