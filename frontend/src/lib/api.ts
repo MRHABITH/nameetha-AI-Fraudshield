@@ -1,5 +1,6 @@
 // Use NEXT_PUBLIC_API_URL in production (Vercel), fallback to localhost in dev
-const BACKEND = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const _rawUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const BACKEND = _rawUrl.replace(/\/$/, "");
 const BASE = `${BACKEND}/api/v1`;
 
 async function apiFetch<T>(path: string): Promise<T | null> {

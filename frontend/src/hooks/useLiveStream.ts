@@ -13,7 +13,8 @@ export interface LiveTransaction {
 }
 
 // Direct to FastAPI — Next.js proxy buffers SSE which breaks the stream
-const BACKEND = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const _rawUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const BACKEND = _rawUrl.replace(/\/$/, "");
 const STREAM_URL = `${BACKEND}/api/v1/stream/transactions`;
 
 /**
