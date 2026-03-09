@@ -18,12 +18,15 @@ app = FastAPI(
 
 import os
 
+raw_origins = os.environ.get(
+    "ALLOWED_ORIGINS",
+    "http://localhost:3000,http://localhost:3001,https://nameetha-ai-fraudshield.vercel.app"
+)
+origins = [origin.strip().rstrip("/") for origin in raw_origins.split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.environ.get(
-        "ALLOWED_ORIGINS",
-        "http://localhost:3000,http://localhost:3001"
-    ).split(","),
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
